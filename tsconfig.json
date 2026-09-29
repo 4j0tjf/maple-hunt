@@ -1,0 +1,64 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "tests/**/*.ts",
+    "scripts/**/*.ts",
+    "*.ts",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    ".next-release-20260924-213912-519/types/**/*.ts",
+    ".next-release-20260924-213912-519/dev/types/**/*.ts",
+    ".next-release-20260925-090652-645/types/**/*.ts",
+    ".next-release-20260925-090652-645/dev/types/**/*.ts",
+    ".next-release-20260925-091356-386/types/**/*.ts",
+    ".next-release-20260925-091356-386/dev/types/**/*.ts",
+    ".next-release-20260925-091619-530/types/**/*.ts",
+    ".next-release-20260925-091619-530/dev/types/**/*.ts",
+    ".next-check/types/**/*.ts",
+    ".next-check/dev/types/**/*.ts",
+    ".next-release-20260925-101918-080/types/**/*.ts",
+    ".next-release-20260925-101918-080/dev/types/**/*.ts",
+    ".next-release-20260925-102129-395/types/**/*.ts",
+    ".next-release-20260925-102129-395/dev/types/**/*.ts",
+    ".next-release-20260925-150014-884/types/**/*.ts",
+    ".next-release-20260925-150014-884/dev/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "logs",
+    "data",
+    ".next-releases",
+    ".next/next-backup-*"
+  ]
+}

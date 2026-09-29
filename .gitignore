@@ -1,0 +1,32 @@
+# dependencies
+/node_modules
+
+# next.js
+/.next/
+/.next-check/
+/.next-releases/
+/.next-release-*/
+/out/
+/build
+
+# env files (비밀번호가 든 DATABASE_URL). .env.example만 커밋한다.
+.env*
+!.env.example
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+/src/generated/prisma
+
+# 서비스 실행 로그
+/logs
+/data/
+
+.DS_Store
+*.pem
+npm-debug.log*
+
+# Generated from locked OCR packages by predev/prebuild
+/public/scanner/ocr/
+/public/scanner/pixel-worker.js

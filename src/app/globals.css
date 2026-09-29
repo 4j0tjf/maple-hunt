@@ -1,0 +1,148 @@
+@import "tailwindcss";
+
+/**
+ * 라이트·다크 두 벌의 토큰. 메이플로드(mapleroad.kr)의 배색을 따른다.
+ * 라이트: 옅은 회청색 바탕에 흰 카드, 짙은 slate 글자.
+ * 다크: 어두운 바탕에 slate 카드, 코랄 강조.
+ *
+ * 테마는 <html data-theme>로 고른다. layout의 인라인 스크립트가 첫 페인트 전에
+ * 저장된 선택(localStorage "theme") 또는 시스템 설정으로 채운다.
+ * maple-market/src/app/globals.css의 복사본이다. 세 사이트(시세·사냥·MVP작)가 같은 값과 같은 저장 키를 쓰므로 함께 고친다.
+ *
+ * 표면(surface)은 4단계다.
+ * 0: 페이지 배경 · 1: 섹션 카드 · 2: 카드 안의 입력/보조 영역 · 3: 선택/hover
+ *
+ * 글자 대비(카드 기준, WCAG AA 4.5:1 이상. 페이지 배경에서도 4.5:1을 넘긴다):
+ * 라이트 ink 14.6:1 · ink-muted 7.6:1 · ink-faint 5.9:1 · accent 5.5:1
+ * 다크   ink 12.4:1 · ink-muted 7.9:1 · ink-faint 5.7:1 · accent 6.3:1
+ */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+:root {
+  color-scheme: light;
+
+  --surface-0: #f1f4f8;
+  --surface-1: #ffffff;
+  --surface-2: #f6f8fb;
+  --surface-3: #e9eef5;
+
+  --line: #e2e8f0;
+  --line-strong: #cbd5e1;
+
+  --ink: #1e293b;
+  --ink-muted: #475569;
+  --ink-faint: #56667a;
+
+  /* 흰 글자를 얹어도, 흰 바탕에 글자로 써도 4.5:1을 넘는 짙은 코랄. */
+  --accent: #b8421a;
+  --accent-ink: #ffffff;
+
+  --danger: #b91c1c;
+  --success: #047857;
+  --warning: #92580a;
+  --info: #1d4ed8;
+
+  --shadow-card: 0 1px 2px rgb(15 23 42 / 0.04), 0 4px 16px rgb(15 23 42 / 0.06);
+
+  /* 그래프 선. 흰 바탕에서 구분되도록 600 계열을 쓴다. */
+  --series-1: #2563eb;
+  --series-2: #dc2626;
+  --series-3: #059669;
+  --series-4: #d97706;
+  --series-5: #9333ea;
+  --series-6: #e11d48;
+  --series-7: #0891b2;
+  --series-8: #65a30d;
+  --series-9: #ea580c;
+  --series-10: #4f46e5;
+  --series-11: #0d9488;
+  --series-12: #c026d3;
+  --series-13: #ca8a04;
+  --series-14: #16a34a;
+  --series-15: #0284c7;
+  --series-16: #c2410c;
+  --series-17: #7c3aed;
+  --series-18: #db2777;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --surface-0: #15171c;
+  --surface-1: #1f2937;
+  --surface-2: #263243;
+  --surface-3: #374151;
+
+  --line: #334155;
+  --line-strong: #4b5563;
+
+  --ink: #e8ecf2;
+  --ink-muted: #b4bfcd;
+  --ink-faint: #94a3b8;
+
+  --accent: #ff8a5c;
+  --accent-ink: #1c1917;
+
+  --danger: #fca5a5;
+  --success: #6ee7b7;
+  --warning: #fcd34d;
+  --info: #93c5fd;
+
+  --shadow-card: 0 8px 24px rgb(0 0 0 / 0.28);
+
+  /* 어두운 바탕에서는 400 계열이 잘 보인다. */
+  --series-1: #60a5fa;
+  --series-2: #f87171;
+  --series-3: #34d399;
+  --series-4: #fbbf24;
+  --series-5: #c084fc;
+  --series-6: #fb7185;
+  --series-7: #22d3ee;
+  --series-8: #a3e635;
+  --series-9: #f97316;
+  --series-10: #818cf8;
+  --series-11: #2dd4bf;
+  --series-12: #e879f9;
+  --series-13: #facc15;
+  --series-14: #4ade80;
+  --series-15: #38bdf8;
+  --series-16: #fb923c;
+  --series-17: #a78bfa;
+  --series-18: #f472b6;
+}
+
+@theme inline {
+  --color-surface-0: var(--surface-0);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+
+  --color-danger: var(--danger);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-info: var(--info);
+
+  --shadow-card: var(--shadow-card);
+
+  --font-sans: var(--font-geist-sans), var(--font-noto-sans-kr), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+}
+
+body {
+  background: var(--surface-0);
+  color: var(--ink);
+
+  /* 한글은 낱말 중간(예: "단/위")에서 끊지 않고 띄어쓰기에서 줄을 바꾼다. 긴 영문·숫자만 필요할 때 끊는다. */
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}

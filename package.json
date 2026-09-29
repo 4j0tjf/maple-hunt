@@ -1,0 +1,44 @@
+{
+  "name": "maple-hunt",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3201 -H 127.0.0.1",
+    "build": "next build",
+    "start": "next start -p 3200 -H 127.0.0.1",
+    "lint": "eslint",
+    "test": "tsx --test tests/*.test.ts",
+    "db:migrate": "prisma migrate deploy",
+    "scanner:assets": "node scripts/scanner-assets.mjs",
+    "predev": "npm run scanner:assets",
+    "prebuild": "npm run scanner:assets",
+    "characters:prune": "tsx scripts/prune-characters.ts",
+    "maps:import": "tsx scripts/import-maps.ts"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "7.9.1",
+    "@prisma/client": "7.9.1",
+    "@tesseract.js-data/eng": "^1.0.0",
+    "@tesseract.js-data/kor": "^1.0.0",
+    "dotenv": "^17.4.2",
+    "next": "16.3.1",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "tesseract.js": "^7.0.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^20.19.43",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "esbuild": "0.28.2",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "16.3.1",
+    "prettier": "^3.9.6",
+    "prisma": "7.9.1",
+    "tailwindcss": "^4.3.3",
+    "tsx": "^4.23.12",
+    "typescript": "^5.9.3"
+  }
+}
