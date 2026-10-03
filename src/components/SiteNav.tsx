@@ -6,19 +6,20 @@ import { ThemeToggle } from "./ThemeToggle";
 
 /**
  * 시세 사이트(maple-market)와 같은 상단 메뉴.
- * 사냥 기록 외의 메뉴는 다른 서버의 페이지라 basePath가 붙는 next/link 대신 일반 링크로 이동한다.
+ * 모든 메뉴가 다른 서버의 페이지라 basePath가 붙는 next/link 대신 일반 링크로 이동한다.
+ * 사냥 기록은 스케줄러(/scheduler)의 사냥 기록 탭으로 옮겨 메뉴에서 뺐다. 이 화면(/hunting)은 주소로 들어오면 그대로 쓸 수 있다.
  */
-const LINKS = [
+const LINKS: { href: string; label: string; active?: boolean }[] = [
   { href: "/market", label: "시세 기록" },
   { href: "/admin", label: "수집 관리" },
   { href: "/mvp", label: "MVP작" },
   { href: "/recovery", label: "회수율 추이" },
-  { href: "/hunting", label: "사냥 기록", active: true },
+  { href: "/scheduler", label: "스케줄러" },
 ];
 
 export function SiteNav() {
   const bar = useRef<HTMLDivElement>(null);
-  // 휴대폰에서는 메뉴가 가로로 넘쳐 맨 끝의 '사냥 기록'이 안 보인다. 현재 메뉴가 보이게 가로 위치만 옮긴다(세로 스크롤 없음).
+  // 휴대폰에서는 메뉴가 가로로 넘쳐 맨 끝 메뉴가 안 보인다. 현재 메뉴가 있으면 보이게 가로 위치만 옮긴다(세로 스크롤 없음).
   useEffect(() => {
     const container = bar.current; const current = container?.querySelector<HTMLElement>("[aria-current=page]");
     if (container && current && container.scrollWidth > container.clientWidth)

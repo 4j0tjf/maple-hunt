@@ -22,6 +22,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <head><script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} /></head>
       <body className="flex min-h-full flex-col font-sans">
         <SiteNav />
+        {/* 사냥 기록은 스케줄러로 옮겼다. 기존 화면은 당분간 그대로 두고, 새 화면으로 안내만 한다. */}
+        <p role="note" className="mx-auto mt-4 w-full max-w-[1400px] px-4 text-sm sm:px-6 lg:px-8">
+          <span className="block rounded-xl border border-accent/40 bg-accent/10 px-4 py-3 text-ink">
+            사냥 기록은 이제 <b>스케줄러</b>의 사냥 기록 탭에서 계정으로 로그인해 씁니다. 이 화면의 기록은 스케줄러의 ‘기존 사냥 기록 가져오기’로 옮길 수 있습니다.{" "}
+            <a href="/scheduler#hunting" className="font-semibold text-accent underline underline-offset-2">스케줄러로 이동</a>
+          </span>
+        </p>
         {children}
       </body>
     </html>
