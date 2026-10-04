@@ -9,7 +9,7 @@ export class PixelWorker {
   read(request: PixelRequest): Promise<PixelResult> {
     if (this.disposed) return Promise.reject(new Error("스캔이 중지되었습니다."));
     if (this.cancel) return Promise.reject(new Error("이전 화면 분석이 진행 중입니다."));
-    this.worker ??= new Worker(apiUrl("/scanner/pixel-worker.js?v=2"));
+    this.worker ??= new Worker(apiUrl("/scanner/pixel-worker.js?v=3"));
     const worker = this.worker;
     return new Promise((resolve, reject) => {
       const finish = () => { clearTimeout(timeout); this.cancel = null; worker.onmessage = null; worker.onerror = null; };

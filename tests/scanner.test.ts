@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { analyzePixels, createSearchState } from "../src/services/pixel-analysis";
-import { bounded, COUNT_DIGITS, countStacks, findIcons, findInventory, findMapHeader, readBuffTimer, readItemCount, type Pixels } from "../src/services/scanner";
+import { binarizeMapText, bounded, COUNT_DIGITS, countStacks, findIcons, findInventory, findMapHeader, readBuffTimer, readItemCount, type Pixels } from "../src/services/scanner";
 
 const blank = (width: number, height: number, gray = 219): Pixels => {
   const data = new Uint8ClampedArray(width * height * 4).fill(gray);
@@ -95,6 +95,16 @@ test("minimap header lines are found from pixels next to the map icon", () => {
   const shared = findMapHeader(draw(31))!;
   assert.equal(shared.name.y, plain.name.y + 31, "a window title bar only shifts the lines");
   assert.equal(findMapHeader(blank(320, 130, 243)), null, "a solid bright bar is not the map icon");
+});
+test("map text binarization keeps the 140 cutoff on the usual dark header and follows a brighter one", () => {
+  // 글자 1칸, 바탕 3칸. 글자는 검게(0), 바탕은 희게(255) 바뀐다.
+  const pixels = (ground: number, text: number) => new Uint8ClampedArray([text, text, text, 255, ...[0, 1, 2].flatMap(() => [ground, ground, ground, 255])]);
+  const dark = pixels(70, 150);
+  assert.equal(binarizeMapText(dark), 140);
+  assert.deepEqual([dark[0], dark[4]], [0, 255]);
+  const bright = pixels(138, 250);
+  assert.equal(binarizeMapText(bright), 198, "a header background near 140 is not painted as text");
+  assert.deepEqual([bright[0], bright[4]], [0, 255]);
 });
 test("automatic start needs a timer with seconds, never a stack count or minute-only text", () => {
   assert.equal(readBuffTimer("29:58"), 1798000);

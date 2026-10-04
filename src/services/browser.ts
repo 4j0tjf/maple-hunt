@@ -1,7 +1,7 @@
 import { PixelWorker } from "./pixel-worker";
 import { parseCount, parseMeso, parseTimer, potionFromTimer, PotionDetector, StableValue, type Potion } from "./domain";
 import { LocalOcr } from "./local-ocr";
-import { bounded, compact, countBand, findMapHeader, normalizeMap, readBuffTimer, type Box, type TextBox } from "./scanner";
+import { binarizeMapText, bounded, compact, countBand, findMapHeader, normalizeMap, readBuffTimer, type Box, type TextBox } from "./scanner";
 
 export type Role = "buffArea" | "buffIcon" | "timer" | "alternateIcon" | "alternateTimer" | "character" | "inventory" | "meso" | "fragmentIcon" | "fragments" | "map";
 export const ROLES: Record<Role, string> = { buffArea: "버프 목록 전체", buffIcon: "재획 버프 아이콘 (숫자 제외)", timer: "그 버프의 남은 시간 (분+초 표시)",
@@ -16,14 +16,14 @@ export function crop(source: HTMLCanvasElement, r: Region, scale = 1) {
 }
 /**
  * 판독용 조각. 사냥터 이름(미니맵 머리글)은 짙은 바탕의 밝은 작은 글자라 검은 글자로 이진화해야 OCR이 읽는다
- * (실제 화면 7장에서 지역 이름을 2장 → 7장 읽음).
+ * (실제 화면 7장에서 지역 이름을 2장 → 7장 읽음). 기준 밝기는 binarizeMapText를 본다.
  */
 export function tile(frame: HTMLCanvasElement, region: Region, role: Role) {
   const canvas = crop(frame, region, Math.min(4, 960 / region.w, 140 / region.h));
   if (role === "map") {
     const context = canvas.getContext("2d", { willReadFrequently: true })!;
-    const image = context.getImageData(0, 0, canvas.width, canvas.height), data = image.data;
-    for (let i = 0; i < data.length; i += 4) data[i] = data[i + 1] = data[i + 2] = data[i] * .299 + data[i + 1] * .587 + data[i + 2] * .114 > 140 ? 0 : 255;
+    const image = context.getImageData(0, 0, canvas.width, canvas.height);
+    binarizeMapText(image.data);
     context.putImageData(image, 0, 0);
   }
   return canvas;

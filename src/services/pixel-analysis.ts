@@ -1,8 +1,21 @@
-import { countStacks, findIcons, findInventory, findMapHeader, readBuffMinutes, overlap, type Box, type Pixels } from "./scanner";
+import { countStacks, findIcons, findInventory, findMapHeader, readBuffMinutes, overlap, type Box, type MapHeader, type Pixels } from "./scanner";
 
 export type PixelRequest = { pixels: Pixels; icons: Record<"small" | "large" | "fragment" | "meso" | "point", Pixels> };
-export type SearchState = { width: number; height: number; stripe: number; layout: ReturnType<typeof findInventory>; buff: { kind: "small" | "large"; region: Box } | null };
-export const createSearchState = (): SearchState => ({ width: 0, height: 0, stripe: 0, layout: null, buff: null });
+export type SearchState = { width: number; height: number; stripe: number; layout: ReturnType<typeof findInventory>; buff: { kind: "small" | "large"; region: Box } | null;
+  /** 지난번에 찾은 미니맵 지도 아이콘. */
+  mapIcon: Box | null };
+export const createSearchState = (): SearchState => ({ width: 0, height: 0, stripe: 0, layout: null, buff: null, mapIcon: null });
+/**
+ * 미니맵 머리글은 지난번 자리 → 화면 왼쪽 위 → 화면 위쪽 절반 순서로 찾는다.
+ * 모니터 전체를 공유하면 게임 창(과 미니맵)이 화면 왼쪽 위에 있지 않아 왼쪽 위만 보면 사냥터를 못 읽었다.
+ */
+export function locateMapHeader(pixels: Pixels, state?: SearchState): MapHeader | null {
+  const last = state?.mapIcon;
+  const header = (last && findMapHeader(pixels, { x: last.x - 16, y: last.y - 16, w: 360, h: last.h + 32 }, 32)) || findMapHeader(pixels)
+    || findMapHeader(pixels, { x: 0, y: 0, w: pixels.width, h: Math.ceil(pixels.height / 2) }, pixels.width);
+  if (state) state.mapIcon = header?.icon ?? null;
+  return header;
+}
 export function analyzePixels({ pixels, icons }: PixelRequest, state?: SearchState) {
   if (state && (state.width !== pixels.width || state.height !== pixels.height)) Object.assign(state, createSearchState(), { width: pixels.width, height: pixels.height });
   const previous = state?.layout;
@@ -17,7 +30,7 @@ export function analyzePixels({ pixels, icons }: PixelRequest, state?: SearchSta
   }
   if (state) state.layout = layout;
   const fragments = layout ? countStacks(pixels, icons.fragment, layout.panel, layout.scale) : null;
-  const header = findMapHeader(pixels);
+  const header = locateMapHeader(pixels, state);
   const area = { x: 0, y: 0, w: pixels.width, h: Math.min(pixels.height * .3, 300) };
   const savedBuff = state?.buff;
   const cachedBuff = savedBuff && (!layout || !overlap(savedBuff.region, layout.panel)) && findIcons(pixels, icons[savedBuff.kind], savedBuff.region,
