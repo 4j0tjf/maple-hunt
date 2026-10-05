@@ -30,7 +30,7 @@ export function SiteNav() {
         <div ref={bar} className="flex min-w-0 flex-1 items-center gap-1 overflow-x-auto">
           {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- "/"는 시세 사이트의 메인이다. Link는 basePath를 붙여 /hunting으로 보낸다. */}
           <a href="/" className="mr-5 flex shrink-0 items-center gap-1.5 whitespace-nowrap py-3.5 text-sm font-bold tracking-tight text-ink">
-            <BrandMark className="size-[18px]" />스마트 <span className="text-accent">메라이프</span>
+            <BrandMark className="size-[18px]" /><span className="text-accent">메라이프</span>
           </a>
           {LINKS.map((link) => (
             <a

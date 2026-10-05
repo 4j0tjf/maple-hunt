@@ -11,7 +11,7 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 const notoSansKr = Noto_Sans_KR({ variable: "--font-noto-sans-kr", preload: false });
 
 export const metadata: Metadata = {
-  title: "사냥 기록 · 스마트 메라이프",
+  title: "사냥 기록 · 메라이프",
   description: "재획 사냥 시간, 획득 메소, 솔 에르다 조각을 화면 인식으로 기록한다",
 };
 
